@@ -10,7 +10,17 @@ COPY package.json ./
 # instalar las dependencias del package (node)
 RUN npm install
 
-#Dest /app
-COPY app.js ./
+#Copia todo
+COPY . .
 
+# Realizar testing
+RUN npm run test
+
+# Eliminar archivos y directorios no necesarios
+RUN rm -rf test && rm -rf node_modules
+
+# Unicamente las dependencias de prod
+RUN npm install --prod
+
+# Comando run de la imagen
 CMD [ "node", "app.js" ]
